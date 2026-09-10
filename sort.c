@@ -41,7 +41,9 @@ static int bubble_sort(char *arr[], size_t str_size, size_t arr_size)
 
             if (compare_strings(arr[j], arr[j + 1], str_size) > 0)
             {
-                if (swap(arr[j], arr[j + 1], str_size)) // проверка на ошибку
+                // if (swap(arr[j], arr[j + 1], str_size)) // проверка на ошибку
+                //     return 1;
+                if (swap_by_pointers(&arr[j], &arr[j + 1])) // проверка на ошибку
                     return 1;
             }
         }

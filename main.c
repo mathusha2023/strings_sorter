@@ -5,7 +5,7 @@ void print_arr(char *arr[], size_t size);
 
 int main(void)
 {
-    const size_t STR_SIZE = 7;
+    const size_t STR_SIZE = 23;
     const size_t ARR_SIZE = 5;
 
     char strings[ARR_SIZE][STR_SIZE] = {"MY", "WHEN", "HE", "AND", "HIS"};
