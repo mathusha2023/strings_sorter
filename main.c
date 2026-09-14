@@ -1,19 +1,24 @@
 #include <stdio.h>
+#include <stdalign.h>
+#include <stdlib.h>
+#include <string.h>
 #include "sort.h"
+#include "config.h"
 
 void print_arr(char *arr[], size_t size);
 
 int main(void)
 {
-    const size_t STR_SIZE = 23;
-    const size_t ARR_SIZE = 5;
-
-    char strings[ARR_SIZE][STR_SIZE] = {"MY", "WHEN", "HE", "AND", "HIS"};
+    const char strings[ARR_SIZE][STR_SIZE] = {"MY", "WHEN", "HE", "AND", "HIS"};
     char *arr[ARR_SIZE] = {};
 
     for (size_t i = 0; i < ARR_SIZE; i++)
     {
-        arr[i] = strings[i];
+        char *p = (char *)calloc(STR_SIZE, sizeof(char));
+        if (!p)
+            return 1;
+        strncpy(p, strings[i], STR_SIZE);
+        arr[i] = p;
     }
 
     print_arr(arr, ARR_SIZE);
@@ -25,13 +30,14 @@ int main(void)
     printf("\n");
     print_arr(arr, ARR_SIZE);
 
+    for (size_t i = 0; i < ARR_SIZE; i++)
+        free_ptr(arr[i]);
+
     return 0;
 }
 
 void print_arr(char *arr[], size_t size)
 {
     for (size_t i = 0; i < size; i++)
-    {
         printf("String [%lu] = <%s>\n", i, arr[i]);
-    }
 }

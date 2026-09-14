@@ -32,18 +32,17 @@ static int bubble_sort(char *arr[], size_t str_size, size_t arr_size)
     if (arr_size == 1)
         return 0;
 
-    for (size_t i = 0; i < arr_size - 1; i++)
+    for (size_t pas = 0; pas < arr_size - 1; pas++)
     {
-        for (size_t j = 0; j < arr_size - i - 1; j++)
+        for (size_t i = 0; i < arr_size - pas - 1; i++)
         {
+            assert(pas < arr_size);
             assert(i < arr_size);
-            assert(j < arr_size);
 
-            if (compare_strings(arr[j], arr[j + 1], str_size) > 0)
+            if (compare_strings(arr[i], arr[i + 1], str_size) > 0)
             {
-                // if (swap(arr[j], arr[j + 1], str_size)) // проверка на ошибку
-                //     return 1;
-                if (swap_by_pointers(&arr[j], &arr[j + 1])) // проверка на ошибку
+                // if (swap(arr[i], arr[i + 1], str_size)) // проверка на ошибку
+                if (swap_by_pointers(&arr[i], &arr[i + 1])) // проверка на ошибку
                     return 1;
             }
         }
