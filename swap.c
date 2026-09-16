@@ -6,19 +6,9 @@
 #include <stdio.h>
 #include "config.h"
 
-static int swap_by_full_string(char *s1, char *s2, size_t size);
-static int swap_by_one_char(char *s1, char *s2, size_t size);
-static int swap_by_group_char(char *s1, char *s2, size_t size);
-
-int swap(char *s1, char *s2, size_t size)
+int swap(void *a, void *b, void *extra)
 {
-    assert(s1);
-    assert(s2);
-    assert(s1 != s2);
-
-    // return swap_by_full_string(s1, s2, size);
-    // return swap_by_one_char(s1, s2, size);
-    return swap_by_group_char(s1, s2, size);
+    return swap_by_pointers((char **)a, (char **)b);
 }
 
 int swap_by_pointers(char **s1, char **s2)
@@ -37,7 +27,7 @@ int swap_by_pointers(char **s1, char **s2)
     return 0;
 }
 
-static int swap_by_full_string(char *s1, char *s2, size_t size)
+int swap_by_full_string(char *s1, char *s2, size_t size)
 {
     assert(s1);
     assert(s2);
@@ -56,7 +46,7 @@ static int swap_by_full_string(char *s1, char *s2, size_t size)
     return 0;
 }
 
-static int swap_by_one_char(char *s1, char *s2, size_t size)
+int swap_by_one_char(char *s1, char *s2, size_t size)
 {
     assert(s1);
     assert(s2);
@@ -79,7 +69,7 @@ static int swap_by_one_char(char *s1, char *s2, size_t size)
 
 // меняем местами по 8 байт символов строки за один заход
 // для уменьшения числа обращений к ОЗУ
-static int swap_by_group_char(char *s1, char *s2, size_t size)
+int swap_by_group_char(char *s1, char *s2, size_t size)
 {
     assert(s1);
     assert(s2);

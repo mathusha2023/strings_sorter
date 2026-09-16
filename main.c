@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "sort.h"
+#include "swap.h"
+#include "compare.h"
 #include "config.h"
 
 void print_arr(char *arr[], size_t size);
@@ -24,7 +26,7 @@ int main(void)
     print_arr(arr, ARR_SIZE);
     printf("\n");
 
-    if (sort(arr, STR_SIZE, ARR_SIZE))
+    if (bubble_sort((void *)arr, ARR_SIZE, sizeof(char *), &compare_strings, &swap))
         return 1;
 
     printf("\n");
