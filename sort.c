@@ -6,6 +6,7 @@
 #include "swap.h"
 
 static int bubble_sort(char *arr[], size_t str_size, size_t arr_size);
+static int my_quick_sort(char *arr[], size_t str_size, size_t arr_size, size_t left, size_t right);
 
 int sort(char *arr[], size_t str_size, size_t arr_size)
 {
@@ -48,4 +49,9 @@ static int bubble_sort(char *arr[], size_t str_size, size_t arr_size)
         }
     }
     return 0;
+}
+
+static int my_quick_sort(char *arr[], size_t str_size,
+                         size_t arr_size, size_t left, size_t right)
+{
 }
