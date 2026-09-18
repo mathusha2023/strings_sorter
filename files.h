@@ -1,7 +1,8 @@
 #include <stddef.h>
 
-int read_text(const char *filename, char **text);
-int write_text(const char *filename, char **text, size_t size, const char *mode);
-int write_line(const char *filename, const char *line, const char *mode);
-void free_arr(char **text, size_t size);
-char *mystrdup(const char *str);
+char *get_file_text(const char *filename);
+int get_file_size(const char *filename, size_t *size);
+int read_text(const char *filename, char *buffer, size_t length, size_t *read_size);
+int write_text(const char *filename, const char *line, const char *mode);
+int write_string(const char *filename, struct String *str, const char *mode);
+int write_strings(const char *filename, struct String *strings, size_t length, const char *mode);

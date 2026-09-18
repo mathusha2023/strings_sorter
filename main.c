@@ -8,77 +8,95 @@
 #include "compare.h"
 #include "config.h"
 #include "files.h"
+#include "my_string.h"
 #include "log.h"
 
-void arr_copy(char *buf[], char *arr[], size_t size);
+#define write_t(text, mode)                                       \
+    {                                                             \
+        error = write_text(DEFAULT_OUTPUT_FILE_NAME, text, mode); \
+        if (error)                                                \
+        {                                                         \
+            log("Error while writing text (%d)", error);          \
+            free_ptr(strings);                                    \
+            free_ptr(buffer);                                     \
+            return error;                                         \
+        }                                                         \
+    }
 
 int main(void)
 {
     restart_log();
 
-    printf("Starting Onegin rewriting!\n");
-
-    char *text[MAX_FILE_LINES] = {};
-    char *textcpy[MAX_FILE_LINES] = {};
     int error = 0;
 
-    error = read_text(DEFAULT_INPUT_FILE_NAME, text);
-    if (error)
+    printf("Starting Onegin rewriting!\n");
+
+    char *buffer = get_file_text(DEFAULT_INPUT_FILE_NAME);
+    if (!buffer)
     {
-        log("Error while reading: %d!\n", error);
-        return error;
-    }
-
-    arr_copy(textcpy, text, sizeof(text) / sizeof(text[911]));
-
-    write_line(DEFAULT_OUTPUT_FILE_NAME, "0N3G1N by mc BAA\n", "w");
-    write_line(DEFAULT_OUTPUT_FILE_NAME, "\nPart 1. Sorted\n------------------------\n\n", "a");
-
-    if (bubble_sort(text, MAX_FILE_LINES, sizeof(char *), &my_compare, &swap))
-    {
-        log("Error while sorting!\n");
+        log("Cant get file %s text((\n", DEFAULT_INPUT_FILE_NAME);
         return 1;
     }
 
-    error = write_text(DEFAULT_OUTPUT_FILE_NAME, text, MAX_FILE_LINES, "a");
+    size_t strings_count = 0;
+    struct String *strings = make_strings_arr(buffer, &strings_count);
+    if (!strings)
+    {
+        log("Cant make strings arr\n");
+        free_ptr(buffer);
+        return 1;
+    }
+
+    write_t("0N3G1N by mc BAA\n\n", "w");
+
+    write_t("\nPart 1. Sorted\n------------------------\n\n", "a");
+
+    if (bubble_sort((void *)strings, strings_count, sizeof(strings[0]), &my_compare, &swap))
+    {
+        log("Error while sorting");
+        free_ptr(strings);
+        free_ptr(buffer);
+        return 1;
+    };
+
+    error = write_strings(DEFAULT_OUTPUT_FILE_NAME, strings, strings_count, "a");
     if (error)
     {
-        log("Error while writing: %d!\n", error);
+        log("Cant write string (%d)\n", error);
+        free_ptr(strings);
+        free_ptr(buffer);
         return error;
     }
 
-    write_line(DEFAULT_OUTPUT_FILE_NAME, "\n\nPart 2. mc Pushkaas\n------------------------\n\n", "a");
+    write_t("\n\nPart 2. mc Pushkaas\n------------------------\n\n", "a");
 
-    qsort(text, sizeof(text) / sizeof(text[1488]), sizeof(char *), &my_compare_reversed);
+    if (bubble_sort((void *)strings, strings_count, sizeof(strings[0]), &my_compare_reversed, &swap))
+    {
+        log("Error while sorting");
+        free_ptr(strings);
+        free_ptr(buffer);
+        return 1;
+    };
 
-    error = write_text(DEFAULT_OUTPUT_FILE_NAME, text, MAX_FILE_LINES, "a");
+    error = write_strings(DEFAULT_OUTPUT_FILE_NAME, strings, strings_count, "a");
     if (error)
     {
-        log("Error while writing: %d!\n", error);
+        log("Cant write string (%d)\n", error);
+        free_ptr(strings);
+        free_ptr(buffer);
         return error;
     }
 
-    write_line(DEFAULT_OUTPUT_FILE_NAME, "\n\nPart 3. A. S. Pushkin \"Eugene Onegin\"\n------------------------\n\n", "a");
+    write_t("\n\nPart 3. A. S. Pushkin \"Eugene Onegin\"\n------------------------\n\n", "a");
 
-    error = write_text(DEFAULT_OUTPUT_FILE_NAME, textcpy, MAX_FILE_LINES, "a");
-    if (error)
-    {
-        log("Error while writing: %d!\n", error);
-        return error;
-    }
+    write_t(buffer, "a");
 
-    free_arr(text, MAX_FILE_LINES);
+    write_t("\nOnegin vse!\nVot i ckazochki konez, a kto slushal - molodez!\n", "a");
 
-    write_line(DEFAULT_OUTPUT_FILE_NAME,
-               "\nOnegin vse!\nVot i ckazochki konez, a kto slushal - molodez!\n", "a");
+    free_ptr(strings);
+    free_ptr(buffer);
 
     printf("Onegin re-writing successful! Saved in %s\n", DEFAULT_OUTPUT_FILE_NAME);
 
     return 0;
-}
-
-void arr_copy(char *buf[], char *arr[], size_t size)
-{
-    for (size_t i = 0; i < size; i++)
-        buf[i] = arr[i];
 }

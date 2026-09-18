@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
+#include "log.h"
 
 int bubble_sort(void *arr,
                 size_t arr_length,
@@ -32,9 +33,15 @@ int bubble_sort(void *arr,
             if (comparator(a, b) > 0)
             {
                 if (swap(a, b)) // проверка на ошибку
+                {
+                    log("Bubble sort: error while swapping: pas = %lu, i = %lu", pas, i);
                     return 1;
+                }
             }
         }
+        log("Bubble sort: pas = %lu/%lu", pas, arr_length - 2);
     }
+
+    log("Bubble sorting complete!");
     return 0;
 }
