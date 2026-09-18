@@ -25,7 +25,7 @@ int main(void)
     error = read_text(DEFAULT_INPUT_FILE_NAME, text);
     if (error)
     {
-        log(1, "Error while reading: %d!\n", error);
+        log("Error while reading: %d!\n", error);
         return error;
     }
 
@@ -36,14 +36,14 @@ int main(void)
 
     if (bubble_sort(text, MAX_FILE_LINES, sizeof(char *), &my_compare, &swap))
     {
-        log(1, "Error while sorting!\n");
+        log("Error while sorting!\n");
         return 1;
     }
 
     error = write_text(DEFAULT_OUTPUT_FILE_NAME, text, MAX_FILE_LINES, "a");
     if (error)
     {
-        log(1, "Error while writing: %d!\n", error);
+        log("Error while writing: %d!\n", error);
         return error;
     }
 
@@ -54,7 +54,7 @@ int main(void)
     error = write_text(DEFAULT_OUTPUT_FILE_NAME, text, MAX_FILE_LINES, "a");
     if (error)
     {
-        log(1, "Error while writing: %d!\n", error);
+        log("Error while writing: %d!\n", error);
         return error;
     }
 
@@ -63,7 +63,7 @@ int main(void)
     error = write_text(DEFAULT_OUTPUT_FILE_NAME, textcpy, MAX_FILE_LINES, "a");
     if (error)
     {
-        log(1, "Error while writing: %d!\n", error);
+        log("Error while writing: %d!\n", error);
         return error;
     }
 

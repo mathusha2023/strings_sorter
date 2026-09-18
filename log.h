@@ -22,8 +22,9 @@ const size_t MAX_TIME_BUF = 100;
 
 #ifdef DISABLE_LOGS
 #define log(message, ...)
+#define flog(message, ...)
 #else
-#define log(need_console, message, ...)                                                                         \
+#define _log(need_console, message, ...)                                                                        \
     {                                                                                                           \
         FILE *zalupavanyfile = fopen(LOGFILE_NAME, "a");                                                        \
         assert(zalupavanyfile);                                                                                 \
@@ -41,6 +42,8 @@ const size_t MAX_TIME_BUF = 100;
         fclose(zalupavanyfile);                                                                                 \
         zalupavanyfile = NULL;                                                                                  \
     }
+#define log(message, ...) _log(1, message, ##__VA_ARGS__)
+#define flog(message, ...) _log(0, message, ##__VA_ARGS__)
 #endif // DISABLE_LOGS
 
 #endif // LOG_H
