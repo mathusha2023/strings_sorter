@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdalign.h>
 
-struct alignas(8) String
+struct String
 {
     const char *p;
     size_t length;
