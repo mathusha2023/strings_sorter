@@ -17,7 +17,10 @@
         p = NULL;   \
     }
 
-const size_t STR_SIZE = 23;
-const size_t ARR_SIZE = 5;
+const size_t MAX_FILE_LINES = 5746;
+const size_t MAX_STRING_LENGTH = 1000;
+const char DEFAULT_INPUT_FILE_NAME[] = "formatted_onegin.txt";
+const char DEFAULT_OUTPUT_FILE_NAME[] = "0N3G1N.txt";
+const char LOGFILE_NAME[] = "log.txt";
 
 #endif // CONFIG_H

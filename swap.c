@@ -6,8 +6,12 @@
 #include <stdio.h>
 #include "config.h"
 
-int swap(void *a, void *b, void *extra)
+int swap(void *a, void *b)
 {
+    assert(a);
+    assert(b);
+    assert(a != b);
+
     return swap_by_pointers((char **)a, (char **)b);
 }
 

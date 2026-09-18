@@ -8,9 +8,11 @@ int bubble_sort(void *arr,
                 size_t arr_length,
                 size_t el_size,
                 int (*comparator)(const void *a, const void *b),
-                int (*swap)(void *a, void *b, void *extra))
+                int (*swap)(void *a, void *b))
 {
     assert(arr);
+    assert(comparator);
+    assert(swap);
 
     if (!arr_length)
         return 1;
@@ -29,7 +31,7 @@ int bubble_sort(void *arr,
 
             if (comparator(a, b) > 0)
             {
-                if (swap(a, b, NULL)) // проверка на ошибку
+                if (swap(a, b)) // проверка на ошибку
                     return 1;
             }
         }
