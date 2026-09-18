@@ -1,3 +1,3 @@
 #include <stddef.h>
 
-int swap(void *a, void *b);
+void swap(void *a, void *b);

@@ -11,7 +11,7 @@
 #include "my_string.h"
 #include "log.h"
 
-#define write_t(text, mode)                                       \
+#define dwrite_text(text, mode)                                   \
     {                                                             \
         error = write_text(DEFAULT_OUTPUT_FILE_NAME, text, mode); \
         if (error)                                                \
@@ -21,6 +21,41 @@
             free_ptr(buffer);                                     \
             return error;                                         \
         }                                                         \
+    }
+
+#define dwrite_strings()                                                              \
+    {                                                                                 \
+        error = write_strings(DEFAULT_OUTPUT_FILE_NAME, strings, strings_count, "a"); \
+        if (error)                                                                    \
+        {                                                                             \
+            log("Cant write string (%d)\n", error);                                   \
+            free_ptr(strings);                                                        \
+            free_ptr(buffer);                                                         \
+            return error;                                                             \
+        }                                                                             \
+    }
+
+#define dwrite_all()                                                                                   \
+    {                                                                                                  \
+        dwrite_text("0N3G1N by mc BAA\n\n", "w");                                                      \
+                                                                                                       \
+        dwrite_text("\nPart 1. Sorted\n------------------------\n\n", "a");                            \
+                                                                                                       \
+        bubble_sort((void *)strings, strings_count, sizeof(strings[1000 - 7]), &my_compare, &swap);    \
+                                                                                                       \
+        dwrite_strings();                                                                              \
+                                                                                                       \
+        dwrite_text("\n\nPart 2. mc Pushkaas\n------------------------\n\n", "a");                     \
+                                                                                                       \
+        qsort((void *)strings, strings_count, sizeof(strings[1488]), &my_compare_reversed);            \
+                                                                                                       \
+        dwrite_strings();                                                                              \
+                                                                                                       \
+        dwrite_text("\n\nPart 3. A. S. Pushkin \"Eugene Onegin\"\n------------------------\n\n", "a"); \
+                                                                                                       \
+        dwrite_text(buffer, "a");                                                                      \
+                                                                                                       \
+        dwrite_text("\nOnegin vse!\nVot i ckazochki konez, a kto slushal - molodez!\n", "a");          \
     }
 
 int main(void)
@@ -47,51 +82,7 @@ int main(void)
         return 1;
     }
 
-    write_t("0N3G1N by mc BAA\n\n", "w");
-
-    write_t("\nPart 1. Sorted\n------------------------\n\n", "a");
-
-    if (bubble_sort((void *)strings, strings_count, sizeof(strings[0]), &my_compare, &swap))
-    {
-        log("Error while sorting");
-        free_ptr(strings);
-        free_ptr(buffer);
-        return 1;
-    };
-
-    error = write_strings(DEFAULT_OUTPUT_FILE_NAME, strings, strings_count, "a");
-    if (error)
-    {
-        log("Cant write string (%d)\n", error);
-        free_ptr(strings);
-        free_ptr(buffer);
-        return error;
-    }
-
-    write_t("\n\nPart 2. mc Pushkaas\n------------------------\n\n", "a");
-
-    if (bubble_sort((void *)strings, strings_count, sizeof(strings[0]), &my_compare_reversed, &swap))
-    {
-        log("Error while sorting");
-        free_ptr(strings);
-        free_ptr(buffer);
-        return 1;
-    };
-
-    error = write_strings(DEFAULT_OUTPUT_FILE_NAME, strings, strings_count, "a");
-    if (error)
-    {
-        log("Cant write string (%d)\n", error);
-        free_ptr(strings);
-        free_ptr(buffer);
-        return error;
-    }
-
-    write_t("\n\nPart 3. A. S. Pushkin \"Eugene Onegin\"\n------------------------\n\n", "a");
-
-    write_t(buffer, "a");
-
-    write_t("\nOnegin vse!\nVot i ckazochki konez, a kto slushal - molodez!\n", "a");
+    dwrite_all();
 
     free_ptr(strings);
     free_ptr(buffer);

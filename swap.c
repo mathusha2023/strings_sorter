@@ -7,7 +7,7 @@
 #include "config.h"
 #include "my_string.h"
 
-int swap(void *a, void *b)
+void swap(void *a, void *b)
 {
     assert(a);
     assert(b);
@@ -20,6 +20,4 @@ int swap(void *a, void *b)
     tmp = *s1;
     *s1 = *s2;
     *s2 = tmp;
-
-    return 0;
 }
