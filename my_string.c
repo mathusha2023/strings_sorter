@@ -53,6 +53,7 @@ struct String *make_strings_arr(const char *text, size_t *arr_length)
             log("Arr pointer: %p", arr + j - 1);
             log("Text pointer from arr: %p\n", (arr + j - 1)->p);
             start_p = text + i + 1;
+            log("Start pointer at <%c, %d> char\n", *start_p, (int)*start_p);
             (*arr_length)++;
         }
     }
@@ -60,8 +61,13 @@ struct String *make_strings_arr(const char *text, size_t *arr_length)
     // только если после последнего перевода строки все еще есть строка добавляем ее
     if (*start_p)
     {
+        log("HUIII\n");
+        log("Start pointer after and loop: <%s>\n", start_p);
         (*arr_length)++;
-        struct String string = {.p = start_p, .length = (size_t)(text + i + 1 - start_p)};
+
+        // без добавления 1, чтобы строка не заканчивалась на \0
+        struct String string = {.p = start_p, .length = (size_t)(text + i - start_p)};
+        log("The last char of string is <%c, %d>", string.p[string.length - 1], (int)string.p[string.length - 1]);
         arr[j] = string;
     }
 

@@ -55,7 +55,7 @@
                                                                                                        \
         dwrite_text(buffer, "a");                                                                      \
                                                                                                        \
-        dwrite_text("\nOnegin vse!\nVot i ckazochki konez, a kto slushal - molodez!\n", "a");          \
+        dwrite_text("\n\nOnegin vse!\nVot i ckazochki konez, a kto slushal - molodez!\n", "a");        \
     }
 
 int main(void)

@@ -138,6 +138,18 @@ int write_string(const char *filename, struct String *str, const char *mode)
 
     size_t written_count = fwrite(str->p, sizeof(char), str->length, file);
 
+    // проверка чтобы записанная строка гарантировано перевела строку
+    if (str->p[str->length - 1] != '\n')
+    {
+        if (fputc('\n', file) == EOF)
+        {
+            int error = errno;
+            log("Error while writing char '\\n' in file %s (%d)", filename, error);
+            fclose(file);
+            return error;
+        }
+    }
+
     if (written_count < str->length)
     {
         int error = errno;
