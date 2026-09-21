@@ -1,9 +1,9 @@
 .idea
-*.out.dSYM
 *.out
+*.dSYM
 onegin.txt
 log.txt
 LOGFILE
 0N3G1N.txt
 .vscode
-formatted_onegin.txt
+onegin
