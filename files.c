@@ -17,7 +17,7 @@ char *get_file_text(const char *filename)
     size_t file_size = 0;
     int error = 0;
 
-    error = get_file_size(DEFAULT_INPUT_FILE_NAME, &file_size);
+    error = get_file_size(filename, &file_size);
     if (error)
     {
         log("Error getting file size: %d\n", error);
@@ -32,7 +32,7 @@ char *get_file_text(const char *filename)
     }
 
     size_t read_size = 0;
-    error = read_text(DEFAULT_INPUT_FILE_NAME, buffer, file_size + 1, &read_size);
+    error = read_text(filename, buffer, file_size + 1, &read_size);
     if (error)
     {
         log("Error while reading file: %d\n", error);

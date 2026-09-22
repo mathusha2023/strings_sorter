@@ -189,3 +189,12 @@ Vot i ckazochki konez, a kto slushal - molodez!
 - Компилятор C clang++
 - Bash
 - Python 3 (для `format_onegin.py`)
+
+---
+
+## 📞 Контакты
+
+**Автор:** [@mathusha2023](https://t.me/mathusha2023)  
+**Github:** [ссылка](https://github.com/mathusha2023)  
+**Telegram:** [ссылка](https://t.me/mathusha2023)  
+**VK:** [ссылка](https://vk.ru/mathusha2023)

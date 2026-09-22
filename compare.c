@@ -93,3 +93,14 @@ int my_compare_reversed(const void *a, const void *b)
         return 1;
     return -1;
 }
+
+int my_compare_by_pointer_value(const void *a, const void *b)
+{
+    assert(a);
+    assert(b);
+    assert(a != b);
+
+    const size_t p1 = (size_t)a, p2 = (size_t)b;
+
+    return p1 > p2 ? 1 : -1;
+}

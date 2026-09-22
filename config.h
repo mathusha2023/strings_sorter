@@ -13,6 +13,9 @@
 #define GREY_COLOR "\033[90m"
 #define RESET_COLOR "\x1b[0m"
 
+#define INPUT_FILE_NAME_FLAG "--input"
+#define OUTPUT_FILE_NAME_FLAG "--output"
+
 #define free_ptr(p) \
     {               \
         free(p);    \
