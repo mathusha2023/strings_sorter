@@ -98,13 +98,17 @@ int my_compare_reversed(const void *a, const void *b)
     return -1;
 }
 
+// сортировка по значениям указателей без их разыменования - не баг, так и задумано)
 int my_compare_by_pointer_value(const void *a, const void *b)
 {
     assert(a);
     assert(b);
     assert(a != b);
 
-    const size_t p1 = (size_t)a, p2 = (size_t)b;
+    const struct String *s1 = (const struct String *)a;
+    const struct String *s2 = (const struct String *)b;
 
-    return p1 > p2 ? 1 : -1;
+    assert(s1->p != s2->p);
+
+    return s1->p > s2->p ? 1 : -1;
 }
