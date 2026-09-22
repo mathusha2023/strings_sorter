@@ -9,37 +9,48 @@
 #include "config.h"
 #include "log.h"
 #include "my_string.h"
+#include "file_wrapper.h"
 
-char *get_file_text(const char *filename)
+// устанавливает поля wrapper->file_size, wrapper->buffer, wrapper->file_n_symb
+int get_file_text(struct FileWrapper *wrapper)
 {
-    assert(filename);
+    assert(wrapper);
+    assert(wrapper->filename);
 
     size_t file_size = 0;
     int error = 0;
 
-    error = get_file_size(filename, &file_size);
+    error = get_file_size(wrapper->filename, &file_size);
     if (error)
     {
+        wrapper->error = error;
         log("Error getting file size: %d\n", error);
-        return NULL;
+        return error;
     }
+    wrapper->file_size = file_size;
 
     char *buffer = (char *)calloc(file_size + 1, sizeof(char));
     if (!buffer)
     {
-        log("Can not alloc memory\n");
-        return NULL;
+        error = errno;
+        wrapper->error = error;
+        log("Can not alloc memory (%d)\n", error);
+        return error;
     }
 
     size_t read_size = 0;
-    error = read_text(filename, buffer, file_size + 1, &read_size);
+    error = read_text(wrapper->filename, buffer, file_size + 1, &read_size);
     if (error)
     {
+        wrapper->error = error;
         log("Error while reading file: %d\n", error);
-        return NULL;
+        free_ptr(buffer);
+        return error;
     }
+    wrapper->buffer = buffer;
+    wrapper->file_n_symb = read_size;
 
-    return buffer;
+    return 0;
 }
 
 int get_file_size(const char *filename, size_t *size)

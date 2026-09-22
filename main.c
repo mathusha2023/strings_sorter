@@ -12,6 +12,7 @@
 #include "my_string.h"
 #include "cmd_args.h"
 #include "log.h"
+#include "file_wrapper.h"
 
 int main(int argc, char *argv[])
 {
@@ -35,26 +36,17 @@ int main(int argc, char *argv[])
 
     printf("Starting Onegin rewriting!\n");
 
-    char *buffer = get_file_text(input_file_name);
-    if (!buffer)
-    {
-        log("Cant get file %s text((\n", input_file_name);
-        return 1;
-    }
+    struct FileWrapper wrapper = init_file_wrapper(input_file_name);
 
-    size_t strings_count = 0;
-    struct String *strings = make_strings_arr(buffer, &strings_count);
-    if (!strings)
+    if (wrapper.error)
     {
-        log("Cant make strings arr\n");
-        free_ptr(buffer);
-        return 1;
+        log("Error while init file wrapper: %d", wrapper.error);
+        return wrapper.error;
     }
 
     dwrite_all();
 
-    free_ptr(strings);
-    free_ptr(buffer);
+    wrapper.dispose(&wrapper);
 
     printf("Onegin re-writing successful! Saved in %s\n", output_file_name);
 

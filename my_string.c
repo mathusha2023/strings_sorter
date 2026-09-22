@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include "log.h"
+#include "file_wrapper.h"
 
 int chrcount(const char *str, char c)
 {
@@ -24,37 +25,41 @@ int lines_count(const char *str)
     return chrcount(str, '\n') + 1;
 }
 
-struct String *make_strings_arr(const char *text, size_t *arr_length)
+// устанавливает поля wrapper->strings и wrapper->strings_count
+int make_strings_arr(struct FileWrapper *wrapper)
 {
-    assert(text);
+    assert(wrapper);
+    assert(wrapper->buffer);
+    assert(!wrapper->strings);
 
-    int lines_c = lines_count(text);
-    *arr_length = 0; // отдельный счетчик для обработки случая, когда после последнего \n идет \0
+    int lines_c = lines_count(wrapper->buffer);
+    wrapper->strings_count = 0; // отдельный счетчик для обработки случая, когда после последнего \n идет \0
 
     struct String *arr = (struct String *)calloc((size_t)lines_c, sizeof(struct String));
     if (!arr)
     {
         int error = errno;
         log("Cant allocate memory: error %d((\n", error);
-        return NULL;
+        wrapper->error = error;
+        return error;
     }
 
-    const char *start_p = text;
+    const char *start_p = wrapper->buffer;
     size_t i = 0, arr_index = 0;
 
-    for (i = 0, arr_index = 0; text[i]; i++)
+    for (i = 0, arr_index = 0; wrapper->buffer[i]; i++)
     {
-        if (text[i] == '\n')
+        if (wrapper->buffer[i] == '\n')
         {
-            struct String string = {.p = start_p, .length = (size_t)(text + i + 1 - start_p)};
+            struct String string = {.p = start_p, .length = (size_t)(wrapper->buffer + i + 1 - start_p)};
             log("Struct string pointer: %p", &string);
             arr[arr_index++] = string;
             log("Text pointer from string: %p", string.p);
             log("Arr pointer: %p", arr + arr_index - 1);
             log("Text pointer from arr: %p\n", (arr + arr_index - 1)->p);
-            start_p = text + i + 1;
+            start_p = wrapper->buffer + i + 1;
             log("Start pointer at <%c, %d> char\n", *start_p, (int)*start_p);
-            (*arr_length)++;
+            wrapper->strings_count++;
         }
     }
 
@@ -63,13 +68,14 @@ struct String *make_strings_arr(const char *text, size_t *arr_length)
     {
         log("HUIII\n");
         log("Start pointer after and loop: <%s>\n", start_p);
-        (*arr_length)++;
+        wrapper->strings_count++;
 
         // без добавления 1, чтобы строка не заканчивалась на \0
-        struct String string = {.p = start_p, .length = (size_t)(text + i - start_p)};
+        struct String string = {.p = start_p, .length = (size_t)(wrapper->buffer + i - start_p)};
         log("The last char of string is <%c, %d>", string.p[string.length - 1], (int)string.p[string.length - 1]);
         arr[arr_index] = string;
     }
+    wrapper->strings = arr;
 
-    return arr;
+    return 0;
 }

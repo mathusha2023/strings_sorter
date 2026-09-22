@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdalign.h>
+#include "file_wrapper.h"
 
 struct String
 {
@@ -12,6 +13,6 @@ struct String
 
 int chrcount(const char *str, char c);
 int lines_count(const char *str);
-struct String *make_strings_arr(const char *text, size_t *arr_length);
+int make_strings_arr(struct FileWrapper *wrapper);
 
-#endif
+#endif // MY_STRINGS_H
