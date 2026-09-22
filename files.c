@@ -47,27 +47,15 @@ int get_file_size(const char *filename, size_t *size)
     assert(filename);
     assert(size);
 
-    int error = 0;
-
-    int fd = open(filename, O_RDONLY);
-    if (fd == -1)
-    {
-        error = errno;
-        log("Cannot open file %s (err_code = %d)\n", filename, error);
-        return error;
-    }
-
     struct stat stat_struct = {};
 
-    if (fstat(fd, &stat_struct) == -1)
+    if (stat(filename, &stat_struct) == -1)
     {
-        error = errno;
+        int error = errno;
         log("Cannot get stat from file %s (err_code = %d)\n", filename, error);
-        close(fd);
         return error;
     };
 
-    close(fd);
     *size = (size_t)stat_struct.st_size;
     return 0;
 }

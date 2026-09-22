@@ -12,38 +12,19 @@
 
 const size_t MAX_TIME_BUF = 100;
 
-#define restart_log()                                    \
-    {                                                    \
-        FILE *zalupavanyfile = fopen(LOGFILE_NAME, "w"); \
-        assert(zalupavanyfile);                          \
-        fclose(zalupavanyfile);                          \
-        zalupavanyfile = NULL;                           \
-    }
+void restart_log();
+void _logfunc(const char *__file__, int __line__, int need_console, const char *message, ...);
 
 #ifdef DISABLE_LOGS
 #define log(message, ...)
 #define flog(message, ...)
+
 #else
-#define _log(need_console, message, ...)                                                                        \
-    {                                                                                                           \
-        FILE *zalupavanyfile = fopen(LOGFILE_NAME, "a");                                                        \
-        assert(zalupavanyfile);                                                                                 \
-                                                                                                                \
-        time_t zalupavanyseconds = time(NULL);                                                                  \
-        struct tm *zalupavanytimeinfo = localtime(&zalupavanyseconds);                                          \
-        char zalupavanybuf[MAX_TIME_BUF] = {};                                                                  \
-        strftime(zalupavanybuf, MAX_TIME_BUF, "%d.%m.%g %H:%M:%S", zalupavanytimeinfo);                         \
-                                                                                                                \
-        if (need_console)                                                                                       \
-            fprintf(stderr, "[%s] %s:%d: " message "\n", zalupavanybuf, __FILE__, __LINE__, ##__VA_ARGS__);     \
-                                                                                                                \
-        fprintf(zalupavanyfile, "[%s] %s:%d: " message "\n", zalupavanybuf, __FILE__, __LINE__, ##__VA_ARGS__); \
-                                                                                                                \
-        fclose(zalupavanyfile);                                                                                 \
-        zalupavanyfile = NULL;                                                                                  \
-    }
+
+#define _log(need_console, message, ...) _logfunc(__FILE__, __LINE__, need_console, message, ##__VA_ARGS__)
 #define log(message, ...) _log(1, message, ##__VA_ARGS__)
 #define flog(message, ...) _log(0, message, ##__VA_ARGS__)
+
 #endif // DISABLE_LOGS
 
 #endif // LOG_H

@@ -36,8 +36,10 @@ int my_compare(const void *a, const void *b)
 
         assert(isalpha(s1->p[i]) && isalpha(s2->p[j]));
 
-        if (tolower(s1->p[i]) != tolower(s2->p[j]))
-            return tolower(s1->p[i]) - tolower(s2->p[j]);
+        int diff = tolower(s1->p[i]) - tolower(s2->p[j]);
+
+        if (diff != 0)
+            return diff;
 
         i++, j++;
     }
@@ -81,8 +83,10 @@ int my_compare_reversed(const void *a, const void *b)
 
         assert(isalpha(s1->p[i]) && isalpha(s2->p[j]));
 
-        if (tolower(s1->p[i]) != tolower(s2->p[j]))
-            return tolower(s1->p[i]) - tolower(s2->p[j]);
+        int diff = tolower(s1->p[i]) - tolower(s2->p[j]);
+
+        if (diff != 0)
+            return diff;
 
         i--, j--;
     }

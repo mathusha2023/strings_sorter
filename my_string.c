@@ -40,18 +40,18 @@ struct String *make_strings_arr(const char *text, size_t *arr_length)
     }
 
     const char *start_p = text;
-    size_t i = 0, j = 0;
+    size_t i = 0, arr_index = 0;
 
-    for (i = 0, j = 0; text[i]; i++)
+    for (i = 0, arr_index = 0; text[i]; i++)
     {
         if (text[i] == '\n')
         {
             struct String string = {.p = start_p, .length = (size_t)(text + i + 1 - start_p)};
             log("Struct string pointer: %p", &string);
-            arr[j++] = string;
+            arr[arr_index++] = string;
             log("Text pointer from string: %p", string.p);
-            log("Arr pointer: %p", arr + j - 1);
-            log("Text pointer from arr: %p\n", (arr + j - 1)->p);
+            log("Arr pointer: %p", arr + arr_index - 1);
+            log("Text pointer from arr: %p\n", (arr + arr_index - 1)->p);
             start_p = text + i + 1;
             log("Start pointer at <%c, %d> char\n", *start_p, (int)*start_p);
             (*arr_length)++;
@@ -68,7 +68,7 @@ struct String *make_strings_arr(const char *text, size_t *arr_length)
         // без добавления 1, чтобы строка не заканчивалась на \0
         struct String string = {.p = start_p, .length = (size_t)(text + i - start_p)};
         log("The last char of string is <%c, %d>", string.p[string.length - 1], (int)string.p[string.length - 1]);
-        arr[j] = string;
+        arr[arr_index] = string;
     }
 
     return arr;
