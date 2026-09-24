@@ -61,8 +61,8 @@ int my_compare_reversed(const void *a, const void *b)
     const struct String *s2 = (const struct String *)b;
 
     // int, т.к. переменные могут стать отрицательными (при уменьшении и переходе через 0)
-    int i = (int)s1->length - 1,
-        j = (int)s2->length - 1;
+    ssize_t i = (ssize_t)s1->length - 1,
+            j = (ssize_t)s2->length - 1;
 
     while (i >= 0 && j >= 0)
     {
