@@ -58,6 +58,7 @@ struct CmdArgs get_args(int argc, char *argv[])
 
     if (wait_output_file_name || wait_input_file_name)
     {
+        log("Error: arg value field not found((");
         cmd_args.error = VALUE_FIELD_NOT_FOUND;
     }
 
