@@ -85,6 +85,13 @@ int read_text(const char *filename, char *buffer, size_t length, size_t *read_si
     }
 
     *read_size = fread((void *)buffer, sizeof(buffer[1488]), length - 1, file);
+    if (ferror(file))
+    {
+        int error = errno;
+        log("Error while reading file %s (error %d)\n", filename, error);
+        fclose(file);
+        return error;
+    }
     buffer[*read_size] = '\0';
 
     fclose(file);
